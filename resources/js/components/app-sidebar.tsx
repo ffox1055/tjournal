@@ -14,14 +14,14 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Journal',
-        url: '#',
+        url: '/journal',
         icon: BookHeadphones,
     },
 ];
 
 export function AppSidebar() {
     return (
-        <Sidebar collapsible="icon" variant="inset">
+        <Sidebar collapsible="icon" variant="sidebar">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>

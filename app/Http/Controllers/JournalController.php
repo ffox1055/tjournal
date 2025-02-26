@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreJournalRequest;
 use App\Http\Requests\UpdateJournalRequest;
 use App\Models\Journal;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class JournalController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
-        //
+        $journals = Journal::get();
+
+        return Inertia::render('journal/list', ['journals' => $journals]);
     }
 
     /**

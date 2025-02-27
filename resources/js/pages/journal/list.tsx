@@ -1,9 +1,11 @@
-import { Head, usePage } from "@inertiajs/react";
+import { Head, usePage } from '@inertiajs/react';
 
-import Heading from "@/components/heading";
-import TableData from "@/components/table-data";
-import AppLayout from "@/layouts/app-layout";
-import { BreadcrumbItem } from "@/types";
+import { useIsMobile } from '@/hooks/use-mobile';
+import AppLayout from '@/layouts/app-layout';
+import { BreadcrumbItem } from '@/types';
+import { Journal } from '@/types/journal';
+import { columns } from './components/columns';
+import DataTable from './components/data-table';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -13,23 +15,22 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function List() {
-    const { journals } = usePage().props;
+    const data = usePage().props;
+    const { journals } = data;
+
+    const isMobile = useIsMobile();
+
+    console.log(isMobile);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Journal" />
 
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <div className="layout">
-                    <div className="mx-6">
-                        <Heading title="Journal" />
-                    </div>
-
-                    <div className="mx-6">
-                        <TableData data={journals} />
-                    </div>
+            <div className="layout flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+                <div className="grid auto-rows-min">
+                    <DataTable columns={columns} data={journals as Journal[]} />
                 </div>
             </div>
         </AppLayout>
-    )
+    );
 }

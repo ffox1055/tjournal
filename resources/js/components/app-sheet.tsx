@@ -1,17 +1,14 @@
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet';
+import { Button } from './ui/button';
 
-export default function AppSheet() {
+export default function AppSheet({ children }: { children?: React.ReactNode }) {
     return (
         <Sheet>
-            <SheetTrigger>Open</SheetTrigger>
-            <SheetContent>
-                <SheetHeader>
-                    <SheetTitle>Are you absolutely sure?</SheetTitle>
-                    <SheetDescription>
-                        This action cannot be undone. This will permanently delete your account and remove your data
-                        from our servers.
-                    </SheetDescription>
-                </SheetHeader>
+            <SheetTrigger>
+                <Button>Add New</Button>
+            </SheetTrigger>
+            <SheetContent className="w-4xl xl:max-w-7xl">
+                {children}
             </SheetContent>
         </Sheet>
     );

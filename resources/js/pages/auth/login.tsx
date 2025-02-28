@@ -21,11 +21,12 @@ interface LoginProps {
 }
 
 export default function Login({ status }: LoginProps) {
-    const { data, setData, post, processing, errors, reset } = useForm<LoginForm>({
-        email: 'john@example.com',
-        password: 'password',
-        remember: false,
-    });
+    const { data, setData, post, processing, errors, reset } =
+        useForm<LoginForm>({
+            email: 'john@example.com',
+            password: 'password',
+            remember: false,
+        });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -35,7 +36,10 @@ export default function Login({ status }: LoginProps) {
     };
 
     return (
-        <AuthLayout title="Log in to your account" description="Enter your email and password below to log in">
+        <AuthLayout
+            title="Log in to your account"
+            description="Enter your email and password below to log in"
+        >
             <Head title="Log in" />
 
             <form className="flex flex-col gap-6" onSubmit={submit}>
@@ -72,7 +76,9 @@ export default function Login({ status }: LoginProps) {
                             tabIndex={2}
                             autoComplete="off"
                             value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
+                            onChange={(e) =>
+                                setData('password', e.target.value)
+                            }
                             placeholder="Password"
                         />
                         <InputError message={errors.password} />
@@ -83,8 +89,15 @@ export default function Login({ status }: LoginProps) {
                         <Label htmlFor="remember">Remember me</Label>
                     </div> */}
 
-                    <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>
-                        {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                    <Button
+                        type="submit"
+                        className="mt-4 w-full"
+                        tabIndex={4}
+                        disabled={processing}
+                    >
+                        {processing && (
+                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                        )}
                         Log in
                     </Button>
                 </div>
@@ -97,7 +110,11 @@ export default function Login({ status }: LoginProps) {
                 </div>
             </form>
 
-            {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
+            {status && (
+                <div className="mb-4 text-center text-sm font-medium text-green-600">
+                    {status}
+                </div>
+            )}
         </AuthLayout>
     );
 }

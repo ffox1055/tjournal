@@ -33,7 +33,7 @@ class JournalController extends Controller
      */
     public function store(StoreJournalRequest $request)
     {
-        //
+        dd($request);
     }
 
     /**

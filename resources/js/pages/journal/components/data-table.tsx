@@ -12,19 +12,29 @@ import {
     ColumnFiltersState,
 } from '@tanstack/react-table';
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
 import Pagination from './pagination';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
-import AppSheet from '@/components/app-sheet';
+import Form from './form';
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
 }
 
-export default function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export default function DataTable<TData, TValue>({
+    columns,
+    data,
+}: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -48,24 +58,40 @@ export default function DataTable<TData, TValue>({ columns, data }: DataTablePro
             <div className="flex items-center justify-between py-4">
                 <Input
                     placeholder="Search token..."
-                    value={(table.getColumn('token_name')?.getFilterValue() as string) ?? ''}
-                    onChange={(event) => table.getColumn('token_name')?.setFilterValue(event.target.value)}
+                    value={
+                        (table
+                            .getColumn('token_name')
+                            ?.getFilterValue() as string) ?? ''
+                    }
+                    onChange={(event) =>
+                        table
+                            .getColumn('token_name')
+                            ?.setFilterValue(event.target.value)
+                    }
                     className="max-w-sm"
                 />
-                <AppSheet />
+
+                <Form />
             </div>
             <div className="rounded-md border">
                 <ScrollArea>
                     <Table>
                         <TableHeader>
                             {table.getHeaderGroups().map((headerGroup) => (
-                                <TableRow className="bg-accent" key={headerGroup.id}>
+                                <TableRow
+                                    className="bg-accent"
+                                    key={headerGroup.id}
+                                >
                                     {headerGroup.headers.map((header) => {
                                         return (
                                             <TableHead key={header.id}>
                                                 {header.isPlaceholder
                                                     ? null
-                                                    : flexRender(header.column.columnDef.header, header.getContext())}
+                                                    : flexRender(
+                                                          header.column
+                                                              .columnDef.header,
+                                                          header.getContext(),
+                                                      )}
                                             </TableHead>
                                         );
                                     })}
@@ -75,17 +101,28 @@ export default function DataTable<TData, TValue>({ columns, data }: DataTablePro
                         <TableBody>
                             {table.getRowModel().rows?.length ? (
                                 table.getRowModel().rows.map((row) => (
-                                    <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                                    <TableRow
+                                        key={row.id}
+                                        data-state={
+                                            row.getIsSelected() && 'selected'
+                                        }
+                                    >
                                         {row.getVisibleCells().map((cell) => (
                                             <TableCell key={cell.id}>
-                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext(),
+                                                )}
                                             </TableCell>
                                         ))}
                                     </TableRow>
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={columns.length} className="h-24 text-center">
+                                    <TableCell
+                                        colSpan={columns.length}
+                                        className="h-24 text-center"
+                                    >
                                         No results.
                                     </TableCell>
                                 </TableRow>

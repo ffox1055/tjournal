@@ -5,19 +5,27 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreJournalRequest;
 use App\Http\Requests\UpdateJournalRequest;
 use App\Models\Journal;
+use App\Services\JournalService;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class JournalController extends Controller
 {
+    protected $journalService;
+
+    public function __construct(JournalService $journalService)
+    {
+        $this->journalService = $journalService;
+    }
+    
     /**
      * Display a listing of the resource.
      */
     public function index(): Response
     {
-        $journals = Journal::get();
-
-        return Inertia::render('journal/list', ['journals' => $journals]);
+        $data = $this->journalService->getJournalData();
+        return Inertia::render('journal/list', $data);
     }
 
     /**
@@ -33,7 +41,16 @@ class JournalController extends Controller
      */
     public function store(StoreJournalRequest $request)
     {
-        dd($request);
+        $validated = $request->validated();
+
+        try {
+            DB::transaction(fn() => Journal::create($validated));
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => 'Something went wrong',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

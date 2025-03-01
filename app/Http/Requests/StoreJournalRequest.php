@@ -11,7 +11,7 @@ class StoreJournalRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreJournalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'token_name' => 'string|required',
+            'risk_reward_ratio' => 'string',
         ];
     }
 }

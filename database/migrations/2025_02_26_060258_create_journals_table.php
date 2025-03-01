@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
 
             $table->string('token_name');
-            $table->date('trading_date');
-            $table->integer('trade_duration'); // Store duration in hours
-            $table->decimal('risk_reward_ratio', 5, 2); // Example format: 2.5
-            $table->enum('status', ['win', 'lose', 'breakevent']);
-            $table->text('reason');
+            $table->date('trading_date')->nullable();
+            $table->integer('trade_duration')->nullable(); // Store duration in hours
+            $table->decimal('risk_reward_ratio', 5, 2)->nullable(); // Example format: 2.5
+            $table->enum('status', ['win', 'lose', 'breakevent'])->nullable();
+            $table->text('reason')->nullable();
             $table->string('image_path')->nullable(); // Store image path if uploaded
 
             $table->timestamps();

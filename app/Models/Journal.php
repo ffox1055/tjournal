@@ -8,5 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Journal extends Model
 {
     /** @use HasFactory<\Database\Factories\JournalFactory> */
+    protected $fillable = [
+        'token_name',
+        'risk_reward_ratio'
+    ];
+
     use HasFactory;
 }

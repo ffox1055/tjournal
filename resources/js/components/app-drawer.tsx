@@ -1,9 +1,7 @@
 import {
     Drawer,
-    DrawerClose,
     DrawerContent,
     DrawerDescription,
-    DrawerFooter,
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
@@ -16,22 +14,18 @@ export default function AppDrawer({
     children?: React.ReactNode;
 }) {
     return (
-        <Drawer>
-            <DrawerTrigger>Open</DrawerTrigger>
-            <DrawerContent>
-                <DrawerHeader>
+        <Drawer direction="right">
+            <DrawerTrigger asChild>
+                <Button>Add Journal</Button>
+            </DrawerTrigger>
+            <DrawerContent className="md:max-w-2xl">
+                <DrawerHeader className="border-b">
                     <DrawerTitle>Are you absolutely sure?</DrawerTitle>
                     <DrawerDescription>
                         This action cannot be undone.
                     </DrawerDescription>
                 </DrawerHeader>
                 {children}
-                <DrawerFooter>
-                    <Button>Submit</Button>
-                    <DrawerClose>
-                        <Button variant="outline">Cancel</Button>
-                    </DrawerClose>
-                </DrawerFooter>
             </DrawerContent>
         </Drawer>
     );

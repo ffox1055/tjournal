@@ -13,7 +13,6 @@ import {
 
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { useState } from 'react';
-import FormInput from './form-input';
 import { DT } from '@/components/data-table/dt';
 import { DTPagination } from '@/components/data-table/dt-pagination';
 import { DTFilter } from '@/components/data-table/dt-filter';
@@ -52,7 +51,6 @@ export default function DataTable<TData, TValue>({ columns, data }: DataTablePro
     <>
       <div className="flex items-center justify-between py-4">
         <DTFilter table={table} placeholder="Filter tokens..." columnName="token_name" />
-        <FormInput />
       </div>
       <ScrollArea className="overflow-hidden rounded-sm border">
         <DT columns={columns} table={table} />

@@ -1,11 +1,20 @@
 import { z } from 'zod';
 
+const NumericField = z.coerce
+  .number({
+    required_error: 'This field is required',
+    invalid_type_error: 'Please input a number',
+  })
+  .int()
+  .positive()
+  .min(1);
+
 export const schema = z.intersection(
   z.object({
     tokenName: z.string().min(1, 'Token name required'),
     tradingDate: z.date(),
     tradeDuration: z.number(),
-    riskRatioReward: z.number(),
+    riskRewardRatio: NumericField,
     reason: z.string(),
     imagePath: z.string(),
   }),
@@ -13,8 +22,8 @@ export const schema = z.intersection(
     z.object({ variant: z.literal('create') }),
     z.object({
       variant: z.literal('update'),
-      status: z.union([z.literal('win'), z.literal('loss'), z.literal('be')]),
       id: z.number(),
+      status: z.union([z.literal('win'), z.literal('loss'), z.literal('be')]),
     }),
   ]),
 );
@@ -25,7 +34,7 @@ export const defaultValues: Schema = {
   variant: 'create',
   tokenName: 'TIA',
   tradingDate: new Date(),
-  riskRatioReward: 0,
+  riskRewardRatio: 0,
   tradeDuration: 0,
   reason: '',
   imagePath: '',

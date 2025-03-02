@@ -18,7 +18,7 @@ class JournalController extends Controller
     {
         $this->journalService = $journalService;
     }
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -41,15 +41,10 @@ class JournalController extends Controller
      */
     public function store(StoreJournalRequest $request)
     {
-        $validated = $request->validated();
-
         try {
-            DB::transaction(fn() => Journal::create($validated));
-        } catch (\Throwable $e) {
-            return response()->json([
-                'error' => 'Something went wrong',
-                'message' => $e->getMessage()
-            ], 500);
+            DB::transaction(fn() => Journal::create($request->validated()));
+        } catch (\Throwable $th) {
+            return back()->with(['message' => $th->getMessage(), 'code' => $th->getCode()]);
         }
     }
 

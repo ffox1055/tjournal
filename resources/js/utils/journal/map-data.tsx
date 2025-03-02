@@ -6,7 +6,7 @@ export function mapData(data: Schema): JournalCreateUpdate {
     token_name: data.tokenName,
     trading_date: data.tradingDate.toString(),
     trade_duration: data.tradeDuration,
-    risk_reward_ratio: data.riskRatioReward,
+    risk_reward_ratio: data.riskRewardRatio,
     reason: data.reason,
     image_path: data.imagePath || '',
   };

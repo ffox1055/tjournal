@@ -7,7 +7,7 @@ use App\Repositories\Contracts\JournalRepositoryInterface;
 
 class JournalRepository implements JournalRepositoryInterface
 {
-    public function getAllJournals() 
+    public function getAllJournals()
     {
         return Journal::latest()->get();
     }

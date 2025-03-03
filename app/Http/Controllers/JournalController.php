@@ -44,7 +44,7 @@ class JournalController extends Controller
         try {
             DB::transaction(fn() => Journal::create($request->validated()));
         } catch (\Throwable $th) {
-            return back()->with(['message' => $th->getMessage(), 'code' => $th->getCode()]);
+            return back()->with(['message' => $th->getMessage()]);
         }
     }
 

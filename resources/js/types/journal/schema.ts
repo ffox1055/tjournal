@@ -34,8 +34,8 @@ export const defaultValues: Schema = {
   variant: 'create',
   tokenName: 'TIA',
   tradingDate: new Date(),
-  riskRewardRatio: 0,
-  tradeDuration: 0,
+  riskRewardRatio: 1,
+  tradeDuration: 1,
   reason: '',
   imagePath: '',
 };

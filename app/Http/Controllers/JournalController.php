@@ -41,10 +41,11 @@ class JournalController extends Controller
      */
     public function store(StoreJournalRequest $request)
     {
-        try {
-            DB::transaction(fn() => Journal::create($request->validated()));
-        } catch (\Throwable $th) {
-            return back()->with(['message' => $th->getMessage()]);
+        $validated = $request->validated();
+        $result = $this->journalService->journalStore($validated);
+
+        if(!$result['success']) {
+            return back()->with('message', $result['message']);
         }
     }
 

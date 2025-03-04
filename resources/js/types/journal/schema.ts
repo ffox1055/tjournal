@@ -1,5 +1,19 @@
 import { z } from 'zod';
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
+
+const SingleFileSchema = z
+  .instanceof(File)
+  .refine(
+    (file) => file.size <= MAX_FILE_SIZE,
+    `Image size must be less than ${MAX_FILE_SIZE / 1024 / 1024}MB.`,
+  )
+  .refine(
+    (file) => ACCEPTED_IMAGE_TYPES.includes(file.type),
+    `Invalid type image. Type must be: PNG, JPG, JPEG`,
+  );
+
 const NumericField = z.coerce
   .number({
     required_error: 'This field is required',
@@ -13,10 +27,10 @@ export const schema = z.intersection(
   z.object({
     tokenName: z.string().min(1, 'Token name required'),
     tradingDate: z.date(),
-    tradeDuration: z.number(),
+    tradeDuration: NumericField,
     riskRewardRatio: NumericField,
     reason: z.string(),
-    imagePath: z.string(),
+    image: z.union([SingleFileSchema, z.string()]),
   }),
   z.discriminatedUnion('variant', [
     z.object({ variant: z.literal('create') }),
@@ -36,6 +50,6 @@ export const defaultValues: Schema = {
   tradingDate: new Date(),
   riskRewardRatio: 1,
   tradeDuration: 1,
-  reason: '',
-  imagePath: '',
+  reason: 'Speculating',
+  image: '',
 };

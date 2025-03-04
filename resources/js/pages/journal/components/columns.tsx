@@ -10,11 +10,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Journal } from '@/types/journal';
+import { JournalPayload } from '@/types/journal';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 
-export const columns: ColumnDef<Journal>[] = [
+export const columns: ColumnDef<JournalPayload>[] = [
   {
     accessorKey: 'token_name',
     header: ({ column }) => {
@@ -24,6 +24,16 @@ export const columns: ColumnDef<Journal>[] = [
   {
     accessorKey: 'trading_date',
     header: 'Date',
+    cell: ({ row }) => {
+      const date = new Date(row.getValue('trading_date'));
+      const formattedDate = date.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      });
+
+      return formattedDate;
+    },
   },
   {
     accessorKey: 'risk_reward_ratio',
@@ -31,7 +41,9 @@ export const columns: ColumnDef<Journal>[] = [
   },
   {
     accessorKey: 'trade_duration',
-    header: ({ column }) => <DTColumnHeader column={column} title="Durations" />,
+    header: ({ column }) => (
+      <DTColumnHeader column={column} title="Durations" />
+    ),
     cell: ({ row }) => {
       const duration = row.getValue('trade_duration');
       return `${duration} Hours`;
@@ -40,6 +52,9 @@ export const columns: ColumnDef<Journal>[] = [
   {
     accessorKey: 'status',
     header: ({ column }) => <DTColumnHeader column={column} title="Status" />,
+    cell: ({ row }) => {
+      return `${row.getValue('status') ? row.getValue('status') : '-'}`;
+    },
   },
   {
     accessorKey: 'reason',
@@ -50,7 +65,9 @@ export const columns: ColumnDef<Journal>[] = [
   },
   {
     id: 'actions',
-    cell: () => {
+    cell: ({ row }) => {
+      const id = row.original.id;
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -61,9 +78,15 @@ export const columns: ColumnDef<Journal>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText('123000')}>Copy payment ID</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText('123000')}
+            >
+              Copy payment ID
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => console.log(id)}>
+              Edit
+            </DropdownMenuItem>
             <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

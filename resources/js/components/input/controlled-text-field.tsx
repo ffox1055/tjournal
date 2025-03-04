@@ -5,7 +5,10 @@ type Props<T extends FieldValues> = {
   name: Path<T>;
 } & React.ComponentProps<'input'>;
 
-const ControlledTextField = <T extends FieldValues>({ name, ...props }: Props<T>) => {
+const ControlledTextField = <T extends FieldValues>({
+  name,
+  ...props
+}: Props<T>) => {
   const { control } = useFormContext();
   return (
     <Controller
@@ -20,7 +23,9 @@ const ControlledTextField = <T extends FieldValues>({ name, ...props }: Props<T>
             }}
             value={value ?? ''}
           />
-          {error && <span className="text-sm text-red-500">{error.message}</span>}
+          {error && (
+            <span className="text-sm text-red-500">{error.message}</span>
+          )}
         </>
       )}
     />

@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('journals', function (Blueprint $table) {
             $table->id();
 
-            $table->string('token_name');
+            $table->string('token_name')->unique();
+            // $table->string('token_name');
             $table->date('trading_date')->nullable();
             $table->integer('trade_duration')->nullable(); // Store duration in hours
             $table->decimal('risk_reward_ratio', 5, 2)->nullable(); // Example format: 2.5
             $table->enum('status', ['win', 'lose', 'breakevent'])->nullable();
             $table->text('reason')->nullable();
-            $table->string('image_path')->nullable(); // Store image path if uploaded
+            $table->string('image')->nullable(); // Store image path if uploaded
 
             $table->timestamps();
         });

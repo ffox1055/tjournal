@@ -22,12 +22,12 @@ class StoreJournalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'token_name' => ['required', 'string'],
-            'trading_date' => ['required', 'date'],
-            'trade_duration' => ['required', 'integer', 'min:0'],
-            'risk_reward_ratio' => ['required', 'numeric', 'min:0'],
-            'reason' => ['required', 'string'],
-            'image_path' => ['required', 'string', 'max:255'],
+            'token_name' => 'required|string',
+            'trading_date' => 'required|date',
+            'trade_duration' => 'required|integer|min:0',
+            'risk_reward_ratio' => 'required|numeric|min:0',
+            'reason' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }

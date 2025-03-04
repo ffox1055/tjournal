@@ -1,7 +1,7 @@
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
+  // DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   // DrawerTrigger,
@@ -22,10 +22,10 @@ export default function AppDrawer({ children, open, onOpenChange }: Props) {
       {/* <DrawerTrigger asChild>
         <Button>Add Journal</Button>
       </DrawerTrigger> */}
-      <DrawerContent className="md:max-w-2xl">
+      <DrawerContent aria-describedby="" className="md:max-w-2xl">
         <DrawerHeader className="border-b">
-          <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-          <DrawerDescription>This action cannot be undone.</DrawerDescription>
+          <DrawerTitle>Add new trade to journals</DrawerTitle>
+          {/* <DrawerDescription>This action cannot be undone.</DrawerDescription> */}
         </DrawerHeader>
         {children}
       </DrawerContent>

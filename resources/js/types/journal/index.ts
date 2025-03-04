@@ -16,17 +16,18 @@ export type JournalBase = {
   tradeDuration: number;
   riskRewardRatio: number;
   reason: string;
-  imagePath: string;
+  image: string;
 };
 
 // Structure for transforming data before sending to the backend
 export type JournalPayload = {
+  id: number;
   token_name: string;
   trading_date: string;
   trade_duration: number;
   risk_reward_ratio: number;
   reason: string;
-  image_path: string;
+  image: File | string;
 };
 
 // Unified type for creating or updating a journal entry
@@ -42,7 +43,7 @@ export type JournalResponse = {
   trade_duration: number;
   risk_reward_ratio: number;
   reason: string;
-  image_path: string;
+  image: string;
   created_at: string;
   updated_at: string;
 };

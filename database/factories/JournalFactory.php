@@ -24,7 +24,7 @@ class JournalFactory extends Factory
             'risk_reward_ratio' => $this->faker->randomFloat(2, 1.0, 5.0), // RR between 1.0 and 5.0
             'status' => $this->faker->randomElement(['win', 'lose']),
             'reason' => $this->faker->sentence(6), // Generates a short reason
-            'image_path' => 'images/trades/' . Str::uuid() . '.png',
+            'image' => 'images/trades/' . Str::uuid() . '.png',
             'created_at' => now(),
             'updated_at' => now(),
         ];

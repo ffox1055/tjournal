@@ -1,3 +1,5 @@
+import { Row } from '@tanstack/react-table';
+
 // Define operation types for creating or updating a journal
 type CreateAction = {
   variant: 'create';
@@ -47,3 +49,8 @@ export type JournalResponse = {
   created_at: string;
   updated_at: string;
 };
+
+export interface DataTableRowAction<TData> {
+  row: Row<TData>;
+  type: 'update' | 'delete';
+}

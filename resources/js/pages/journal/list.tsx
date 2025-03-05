@@ -8,6 +8,7 @@ import DataTable from './components/data-table';
 import FormInput from './components/form-input';
 import { FormContext } from '@/context/journal/form-context';
 import { Toaster } from '@/components/ui/toaster';
+import FormInputSheet from './components/form-input-sheet';
 // import InertiaForm from './components/inertia-form';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -26,7 +27,8 @@ export default function List() {
       <Head title="Journal" />
       <FormContext>
         <div className="layout flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-          <FormInput />
+          {/* <FormInput /> */}
+          <FormInputSheet />
           {/* <InertiaForm /> */}
           <div className="grid auto-rows-min">
             <DataTable columns={columns} data={journals} />

@@ -10,4 +10,6 @@ interface JournalRepositoryInterface
     public function getAllJournals();
 
     public function uploadImage($img);
+
+    public function deleteJournal($id);
 }

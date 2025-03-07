@@ -8,21 +8,25 @@ import {
 
 interface AppSheetProps extends React.ComponentPropsWithRef<typeof Sheet> {
   children: React.ReactNode;
+  trigger: React.ReactNode;
+  sheetTitle?: string;
+  sheetDescription?: string;
 }
 
-export default function AppSheet({ children, ...props }: AppSheetProps) {
+export default function AppSheet({
+  children,
+  trigger,
+  sheetTitle,
+  sheetDescription,
+  ...props
+}: AppSheetProps) {
   return (
     <Sheet {...props}>
-      <SheetContent
-        aria-describedby=""
-        className="w-4xl md:max-w-2xl xl:max-w-7xl"
-      >
+      {trigger}
+      <SheetContent className="w-3xl md:max-w-2xl xl:max-w-5xl">
         <SheetHeader className="border-b">
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </SheetDescription>
+          <SheetTitle>{sheetTitle}</SheetTitle>
+          <SheetDescription>{sheetDescription}</SheetDescription>
         </SheetHeader>
         {children}
       </SheetContent>

@@ -17,6 +17,7 @@ const ControlledInputFile = <T extends FieldValues>({
       control={control}
       render={({ field: { onChange } }) => (
         <Input
+          className="w-full"
           type="file"
           accept="image/png, image/jpeg"
           onChange={(e) => {

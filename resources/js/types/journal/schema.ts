@@ -19,7 +19,6 @@ const NumericField = z.coerce
     required_error: 'This field is required',
     invalid_type_error: 'Please input a number',
   })
-  .int()
   .positive()
   .min(1);
 
@@ -37,7 +36,11 @@ export const schema = z.intersection(
     z.object({
       variant: z.literal('update'),
       id: z.number(),
-      status: z.union([z.literal('win'), z.literal('loss'), z.literal('be')]),
+      status: z
+        .union([z.literal('win'), z.literal('loss'), z.literal('be')])
+        .refine((val) => val !== undefined, {
+          message: 'Status is required',
+        }),
     }),
   ]),
 );
@@ -46,10 +49,10 @@ export type Schema = z.infer<typeof schema>;
 
 export const defaultValues: Schema = {
   variant: 'create',
-  tokenName: 'TIA',
+  tokenName: 'A',
   tradingDate: new Date(),
   riskRewardRatio: 1,
   tradeDuration: 1,
-  reason: 'Speculating',
+  reason: '',
   image: '',
 };

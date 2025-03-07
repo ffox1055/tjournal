@@ -23,13 +23,19 @@ class JournalService
             $success = false;
 
             DB::transaction(function () use ($validated, &$success) {
-                $res = $this->journalRepository->createJournal($validated);
 
-                if ($res) {
-                    if (isset($validated['image']) && !empty($validated['image'])) {
-                        $this->journalRepository->uploadImage($validated['image']);
-                    }
+                if(isset($validated['image'])) {
+                    $imgPath = $this->journalRepository->uploadImage($validated['image']);
+                    $validated['image'] = $imgPath;
                 }
+
+                $this->journalRepository->createJournal(data: $validated);
+
+                // if ($res) {
+                //     if (isset($validated['image']) && !empty($validated['image'])) {
+                //         $this->journalRepository->uploadImage($validated['image']);
+                //     }
+                // }
 
                 $success = true;
             });
@@ -44,5 +50,15 @@ class JournalService
                 'message' => $th->getMessage(),
             ];
         }
+    }
+
+    public function journalDestroy($id)
+    {
+        $this->journalRepository->deleteJournal($id);
+
+        return [
+            'success' => true,
+            'message' => null
+        ];
     }
 }

@@ -13,17 +13,17 @@ type UpdateAction = {
 
 // Common fields shared across create and update operations
 export type JournalBase = {
+  id: number | null;
   tokenName: string;
   tradingDate: string;
   tradeDuration: number;
   riskRewardRatio: number;
   reason: string;
-  image: string;
+  image: File | string;
 };
 
 // Structure for transforming data before sending to the backend
 export type JournalPayload = {
-  id: number;
   token_name: string;
   trading_date: string;
   trade_duration: number;
@@ -39,7 +39,7 @@ export type JournalCreateUpdate = JournalPayload &
 // Response format for a journal entry from the backend
 export type JournalResponse = {
   id: number;
-  status: string;
+  status: 'win' | 'be' | 'loss';
   token_name: string;
   trading_date: string;
   trade_duration: number;

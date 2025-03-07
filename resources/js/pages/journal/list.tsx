@@ -1,15 +1,16 @@
-import { Head, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem } from '@/types';
+import { BreadcrumbItem, ErrorResponse } from '@/types';
 import { JournalResponse } from '@/types/journal';
-import { columns } from './components/columns';
-import DataTable from './components/data-table';
-import FormInput from './components/form-input';
+import { getColumns } from './_components/columns';
+import DataTable from './_components/data-table';
 import { FormContext } from '@/context/journal/form-context';
-import { Toaster } from '@/components/ui/toaster';
-import FormInputSheet from './components/form-input-sheet';
-// import InertiaForm from './components/inertia-form';
+import FormInputSheet from './_components/form-input-sheet';
+import { useCallback, useMemo, useState } from 'react';
+import { mapResponse } from '@/utils/journal/map-data';
+import { Schema } from '@/types/journal/schema';
+import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -20,7 +21,31 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function List() {
   const props = usePage().props;
-  const journals = props.journals as JournalResponse[];
+  const journalsEntries = props.journals as JournalResponse[];
+  const [selectedJournal, setSelectedJournal] = useState<Schema | null>(null);
+
+  const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
+
+  const onUpdate = useCallback((journals: JournalResponse) => {
+    setSelectedJournal(mapResponse(journals));
+    setIsSheetOpen(true);
+  }, []);
+
+  const onDelete = useCallback((journals: JournalResponse) => {
+    router.delete(`journal/${journals.id}`, {
+      onSuccess: ({ props }) => {
+        const err = props.err as ErrorResponse;
+        if (!err.message) {
+          toast.success('Journal deleted');
+        }
+      },
+    });
+  }, []);
+
+  const columns = useMemo(
+    () => getColumns({ onDelete: onDelete, onUpdate: onUpdate }),
+    [onDelete, onUpdate],
+  );
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
@@ -28,14 +53,19 @@ export default function List() {
       <FormContext>
         <div className="layout flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
           {/* <FormInput /> */}
-          <FormInputSheet />
-          {/* <InertiaForm /> */}
+          <FormInputSheet
+            isOpen={isSheetOpen}
+            onOpenChange={(value) => {
+              setIsSheetOpen(value);
+              if (!value) setSelectedJournal(null);
+            }}
+            journalDetail={selectedJournal}
+          />
           <div className="grid auto-rows-min">
-            <DataTable columns={columns} data={journals} />
+            <DataTable columns={columns} data={journalsEntries} />
           </div>
         </div>
       </FormContext>
-      <Toaster />
     </AppLayout>
   );
 }

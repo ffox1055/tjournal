@@ -1,6 +1,11 @@
-import { JournalCreateUpdate, JournalPayload } from '@/types/journal';
+import {
+  JournalCreateUpdate,
+  JournalPayload,
+  JournalResponse,
+} from '@/types/journal';
 import { Schema } from '@/types/journal/schema';
 
+// mapdata before send to backend
 export function mapData(data: Schema): JournalCreateUpdate {
   const date = data.tradingDate;
   const formattedDate = date.toISOString().split('T')[0];
@@ -27,4 +32,19 @@ export function mapData(data: Schema): JournalCreateUpdate {
       };
     }
   }
+}
+
+//  map respone from backend before pass to RHF
+export function mapResponse(data: JournalResponse): Schema {
+  return {
+    variant: 'update',
+    tokenName: data.token_name,
+    status: data.status,
+    id: data.id,
+    image: data.image,
+    reason: data.reason,
+    riskRewardRatio: data.risk_reward_ratio,
+    tradingDate: new Date(data.trading_date),
+    tradeDuration: data.trade_duration,
+  };
 }

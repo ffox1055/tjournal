@@ -42,3 +42,5 @@ export interface User {
 export interface ErrorResponse {
   message: string | null;
 }
+
+export type Option = { label: string; value: string };

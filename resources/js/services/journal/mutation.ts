@@ -1,25 +1,22 @@
 import { router } from '@inertiajs/react';
 import omit from 'lodash/omit';
+import { toast } from 'sonner';
 
 import { Schema } from '@/types/journal/schema';
 import { mapData } from '@/utils/journal/map-data';
-import { toast } from '@/hooks/use-toast';
 import { ErrorResponse } from '@/types';
 
 interface PostJournalParams {
   journalData: Schema;
   setLoadingState?: (isLoading: boolean) => void;
-  toggleDrawer?: (isOpen: boolean) => void;
+  toggleFormOpen?: (isOpen: boolean) => void;
 }
 
 function handleErrorResponse(errorResponse: ErrorResponse): void {
   if (!errorResponse.message) return;
 
-  toast({
-    variant: 'destructive',
-    title: 'Uh oh! Something went wrong.',
+  toast.error('Uh oh! Something went wrong.', {
     description: errorResponse.message,
-    duration: 5000,
   });
 
   setTimeout(() => {
@@ -27,22 +24,27 @@ function handleErrorResponse(errorResponse: ErrorResponse): void {
   }, 10000);
 }
 
-function handleSuccessResponse(toggleDrawer?: (isOpen: boolean) => void): void {
-  toast({
-    variant: 'success',
-    title: 'Data saved successfully!',
+function handleSuccessResponse(
+  toggleFormOpen?: (isOpen: boolean) => void,
+): void {
+  // toast({
+  //   variant: 'success',
+  //   title: 'Data saved successfully!',
+  //   duration: 2000,
+  // });
+  toast.success('created.', {
     duration: 2000,
   });
 
-  if (toggleDrawer) {
-    toggleDrawer(false);
+  if (toggleFormOpen) {
+    toggleFormOpen(false);
   }
 }
 
 export function postJournal({
   journalData,
   setLoadingState,
-  toggleDrawer,
+  toggleFormOpen,
 }: PostJournalParams): void {
   const formattedData = omit(mapData(journalData), 'variant');
 
@@ -54,7 +56,7 @@ export function postJournal({
         return handleErrorResponse(errorResponse);
       }
 
-      handleSuccessResponse(toggleDrawer);
+      handleSuccessResponse(toggleFormOpen);
     },
     onFinish: () => {
       if (setLoadingState) {

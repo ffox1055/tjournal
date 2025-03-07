@@ -16,13 +16,20 @@ import { useState } from 'react';
 import { DT } from '@/components/data-table/dt';
 import { DTPagination } from '@/components/data-table/dt-pagination';
 import { DTFilter } from '@/components/data-table/dt-filter';
+import { DTFacetedFilter } from '@/components/data-table/dt-faceted-filter';
+import { statuses } from '../_constants/data';
+import { Button } from '@/components/ui/button';
+import { X } from 'lucide-react';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export default function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export default function DataTable<TData, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -47,16 +54,41 @@ export default function DataTable<TData, TValue>({ columns, data }: DataTablePro
     },
   });
 
+  const isFiltered = table.getState().columnFilters.length > 0;
+
   return (
     <>
-      <div className="flex items-center justify-between py-4">
-        <DTFilter table={table} placeholder="Filter tokens..." columnName="token_name" />
+      <div className="mb-4 flex flex-1 items-center space-x-2">
+        <DTFilter
+          table={table}
+          placeholder="Filter tokens..."
+          columnName="token_name"
+        />
+
+        {table.getColumn('status') && (
+          <DTFacetedFilter
+            column={table.getColumn('status')}
+            options={statuses}
+            title="Status"
+          />
+        )}
+
+        {isFiltered && (
+          <Button
+            variant="ghost"
+            onClick={() => table.resetColumnFilters()}
+            className="h-8 px-2 lg:px-3"
+          >
+            Reset
+            <X />
+          </Button>
+        )}
       </div>
-      <ScrollArea className="overflow-hidden rounded-sm border">
+      <ScrollArea className="mb-4 overflow-hidden rounded-sm border">
         <DT columns={columns} table={table} />
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-      <div className="py-4">
+      <div>
         <DTPagination table={table} />
       </div>
     </>

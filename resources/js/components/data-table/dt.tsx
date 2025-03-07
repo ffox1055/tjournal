@@ -11,11 +11,18 @@ import {
   flexRender,
   Table as TanStackTable,
 } from '@tanstack/react-table';
+import { CSSProperties } from 'react';
 
 interface DTProps<TData, TValue> {
   table: TanStackTable<TData>;
   columns: ColumnDef<TData, TValue>[];
 }
+
+export const defaultColumnSizing = {
+  size: 150,
+  minSize: 20,
+  maxSize: Number.MAX_SAFE_INTEGER,
+};
 
 export function DT<TData, TValue>({ table, columns }: DTProps<TData, TValue>) {
   return (
@@ -24,8 +31,13 @@ export function DT<TData, TValue>({ table, columns }: DTProps<TData, TValue>) {
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow className="bg-muted" key={headerGroup.id}>
             {headerGroup.headers.map((header) => {
+              const styles: CSSProperties =
+                header.getSize() !== defaultColumnSizing.size
+                  ? { width: `${header.getSize()}px` }
+                  : {};
+
               return (
-                <TableHead key={header.id}>
+                <TableHead key={header.id} style={styles}>
                   {flexRender(
                     header.column.columnDef.header,
                     header.getContext(),

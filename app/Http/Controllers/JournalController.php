@@ -25,6 +25,7 @@ class JournalController extends Controller
     public function index(): Response
     {
         $data = $this->journalService->getJournalData();
+
         return Inertia::render('journal/list', $data);
     }
 
@@ -78,6 +79,6 @@ class JournalController extends Controller
      */
     public function destroy(Journal $journal)
     {
-        //
+        $this->journalService->journalDestroy($journal->id);
     }
 }

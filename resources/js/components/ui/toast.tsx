@@ -37,9 +37,24 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: "border bg-background text-foreground",
-        destructive: "group bg-destructive/85 border-red-100 dark:border-red-400 text-white dark:text-red-100",
-        success: "border-green-500 bg-green-100 text-green-900 dark:border-green-700 dark:bg-green-900 dark:text-green-100"
+        default:
+          "border bg-white text-gray-900 dark:bg-black dark:text-gray-100 dark:border-gray-800",
+
+        success:
+          "border bg-[hsl(143,85%,96%)] text-[hsl(140,100%,27%)] border-[hsl(145,92%,87%)] " +
+          "dark:bg-[hsl(150,100%,6%)] dark:text-[hsl(150,86%,65%)] dark:border-[hsl(147,100%,12%)]",
+
+        info:
+          "border bg-[hsl(208,100%,97%)] text-[hsl(210,92%,45%)] border-[hsl(221,91%,93%)] " +
+          "dark:bg-[hsl(215,100%,6%)] dark:text-[hsl(216,87%,65%)] dark:border-[hsl(223,43%,17%)]",
+
+        warning:
+          "border bg-[hsl(49,100%,97%)] text-[hsl(31,92%,45%)] border-[hsl(49,91%,84%)] " +
+          "dark:bg-[hsl(64,100%,6%)] dark:text-[hsl(46,87%,65%)] dark:border-[hsl(60,100%,9%)]",
+
+        error:
+          "border bg-[hsl(359,100%,97%)] text-[hsl(360,100%,45%)] border-[hsl(359,100%,94%)] " +
+          "dark:bg-[hsl(358,76%,10%)] dark:text-[hsl(358,100%,81%)] dark:border-[hsl(357,89%,16%)]",
       },
     },
     defaultVariants: {
@@ -92,7 +107,7 @@ const ToastClose = React.forwardRef<
   <ToastPrimitives.Close
     ref={ref}
     className={cn(
-      "absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity",
+      "cursor-pointer absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity",
       "hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100",
       "group-[.destructive]:text-red-300 group-[.destructive]:hover:text-red-50",
       "group-[.destructive]:focus:ring-red-400 group-[.destructive]:focus:ring-offset-red-600",
@@ -113,7 +128,7 @@ const ToastTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Title
     ref={ref}
-    className={cn("text-sm font-semibold", className)}
+    className={cn("text-md font-semibold", className)}
     {...props}
   />
 ))
@@ -125,7 +140,7 @@ const ToastDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ToastPrimitives.Description
     ref={ref}
-    className={cn("text-sm opacity-90", className)}
+    className={cn("text-sm font-normal opacity-90", className)}
     {...props}
   />
 ))

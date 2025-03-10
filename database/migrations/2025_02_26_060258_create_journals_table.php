@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('trading_date')->nullable();
             $table->integer('trade_duration')->nullable(); // Store duration in hours
             $table->decimal('risk_reward_ratio', 5, 2)->nullable(); // Example format: 2.5
-            $table->enum('status', ['win', 'loss', 'be'])->nullable();
+            $table->enum('status', ['win', 'loss', 'be', 'active']);
             $table->text('reason')->nullable();
             $table->string('image')->nullable(); // Store image path if uploaded
 

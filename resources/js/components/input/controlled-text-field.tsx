@@ -1,5 +1,6 @@
 import { Controller, FieldValues, Path, useFormContext } from 'react-hook-form';
 import { Input } from '../ui/input';
+import InputError from '../input-error';
 
 type Props<T extends FieldValues> = {
   name: Path<T>;
@@ -23,9 +24,7 @@ const ControlledTextField = <T extends FieldValues>({
             }}
             value={value ?? ''}
           />
-          {error && (
-            <span className="text-sm text-red-500">{error.message}</span>
-          )}
+          {error && <InputError message={error.message} />}
         </>
       )}
     />

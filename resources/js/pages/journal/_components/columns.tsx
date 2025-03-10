@@ -52,7 +52,7 @@ export const getColumns = ({
     ),
     cell: ({ row }) => {
       const duration = row.getValue('trade_duration');
-      return `${duration} Hours`;
+      return `${duration ? `${duration} hours` : '-'}`;
     },
   },
   {

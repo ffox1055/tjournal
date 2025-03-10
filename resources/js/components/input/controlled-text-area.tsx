@@ -1,5 +1,6 @@
 import { Controller, FieldValues, Path, useFormContext } from 'react-hook-form';
 import { Textarea } from '../ui/textarea';
+import InputError from '../input-error';
 
 type Props<T extends FieldValues> = {
   name: Path<T>;
@@ -15,7 +16,12 @@ const ControlledTextArea = <T extends FieldValues>({
     <Controller
       name={name}
       control={control}
-      render={({ field }) => <Textarea {...field} {...props} />}
+      render={({ field, fieldState: { error } }) => (
+        <>
+          <Textarea {...field} {...props} />
+          {error && <InputError message={error.message} />}
+        </>
+      )}
     />
   );
 };

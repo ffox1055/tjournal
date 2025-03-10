@@ -6,11 +6,11 @@ import { JournalResponse } from '@/types/journal';
 import { getColumns } from './_components/columns';
 import DataTable from './_components/data-table';
 import { FormContext } from '@/context/journal/form-context';
-import FormInputSheet from './_components/form-input-sheet';
 import { useCallback, useMemo, useState } from 'react';
 import { mapResponse } from '@/utils/journal/map-data';
 import { Schema } from '@/types/journal/schema';
 import { toast } from 'sonner';
+import FormInput from './_components/form-input';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -52,8 +52,7 @@ export default function List() {
       <Head title="Journal" />
       <FormContext>
         <div className="layout flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-          {/* <FormInput /> */}
-          <FormInputSheet
+          <FormInput
             isOpen={isSheetOpen}
             onOpenChange={(value) => {
               setIsSheetOpen(value);

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\JournalController;
+use App\Http\Controllers\Journal\JournalController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 

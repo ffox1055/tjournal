@@ -19,7 +19,8 @@ export const statuses = [
 ];
 
 export const StatusOption = [
+  { value: 'active', label: 'Active' },
   { value: 'win', label: 'Win' },
-  { value: 'be', label: 'Be' },
+  { value: 'be', label: 'Break Even' },
   { value: 'loss', label: 'Loss' },
 ];

@@ -30,7 +30,9 @@ const DTRowAction = <TData,>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuLabel className="bg-accent-foreground/5 rounded-sm">
+          Actions
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => onUpdate(row.original)}>
           Edit

@@ -1,5 +1,6 @@
 import { Controller, FieldValues, Path, useFormContext } from 'react-hook-form';
 import { Input } from '../ui/input';
+import InputError from '../input-error';
 
 type Props<T extends FieldValues> = {
   name: Path<T>;
@@ -15,16 +16,18 @@ const ControlledInputFile = <T extends FieldValues>({
     <Controller
       name={name}
       control={control}
-      render={({ field: { onChange } }) => (
-        <Input
-          className="w-full"
-          type="file"
-          accept="image/png, image/jpeg"
-          onChange={(e) => {
-            onChange(e.target.files?.[0]);
-          }}
-          {...props}
-        />
+      render={({ field: { onChange }, fieldState: { error } }) => (
+        <>
+          <Input
+            type="file"
+            accept="image/png, image/jpeg"
+            onChange={(e) => {
+              onChange(e.target.files?.[0]);
+            }}
+            {...props}
+          />
+          {error && <InputError message={error.message} />}
+        </>
       )}
     />
   );

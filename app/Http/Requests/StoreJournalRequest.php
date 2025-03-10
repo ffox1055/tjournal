@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TradeStatus;
+use App\Rules\ImageOrString;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreJournalRequest extends FormRequest
 {
@@ -24,10 +27,17 @@ class StoreJournalRequest extends FormRequest
         return [
             'token_name' => 'required|string',
             'trading_date' => 'required|date',
-            'trade_duration' => 'required|integer|min:0',
-            'risk_reward_ratio' => 'required|numeric|min:0',
+            'trade_duration' => 'nullable|integer|min:0',
+            'risk_reward_ratio' => 'nullable|numeric|min:0',
             'reason' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'status' => ['required', Rule::enum(type: TradeStatus::class)],
+            'image' => [
+                'required',
+                new ImageOrString(),
+                Rule::when(
+                    condition: request()->hasFile(key: 'image'),
+                    rules: ['mimes:jpeg,png,jpg', 'max:2048']
+                )],
         ];
     }
 }

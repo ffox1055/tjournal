@@ -15,6 +15,7 @@ export function mapData(data: Schema): JournalCreateUpdate {
     trading_date: formattedDate,
     trade_duration: data.tradeDuration,
     risk_reward_ratio: data.riskRewardRatio,
+    status: data.status,
     reason: data.reason,
     image: data.image,
   };
@@ -28,7 +29,6 @@ export function mapData(data: Schema): JournalCreateUpdate {
         ...common,
         variant: data.variant,
         id: data.id,
-        status: data.status,
       };
     }
   }

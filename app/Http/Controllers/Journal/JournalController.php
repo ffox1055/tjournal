@@ -1,23 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Journal;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreJournalRequest;
 use App\Http\Requests\UpdateJournalRequest;
 use App\Models\Journal;
 use App\Services\JournalService;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class JournalController extends Controller
 {
-    protected $journalService;
-
-    public function __construct(JournalService $journalService)
-    {
-        $this->journalService = $journalService;
-    }
+    public function __construct(protected JournalService $journalService){}
 
     /**
      * Display a listing of the resource.
@@ -30,19 +25,12 @@ class JournalController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreJournalRequest $request)
     {
         $validated = $request->validated();
+
         $result = $this->journalService->journalStore($validated);
 
         if(!$result['success']) {
@@ -51,27 +39,17 @@ class JournalController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Journal $journal)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Journal $journal)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateJournalRequest $request, Journal $journal)
     {
-        //
+        $validated = $request->validated();
+
+        $result = $this->journalService->journalUpdate($validated, $journal->id);
+
+        if(!$result['success']) {
+            return back()->with('message', $result['message']);
+        }
     }
 
     /**

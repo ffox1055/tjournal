@@ -7,9 +7,15 @@ interface JournalRepositoryInterface
 {
     public function createJournal(array $data);
 
+    public function updateJournal(array $data,int $id);
+
+    public function findJournal(int $id);
+
     public function getAllJournals();
 
-    public function uploadImage($img);
+    public function uploadImage(string $img);
 
-    public function deleteJournal($id);
+    public function deleteImage(string $img);
+
+    public function deleteJournal(int $id);
 }

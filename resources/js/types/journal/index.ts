@@ -8,7 +8,6 @@ type CreateAction = {
 type UpdateAction = {
   variant: 'update';
   id: number;
-  status: string;
 };
 
 // Common fields shared across create and update operations
@@ -26,10 +25,11 @@ export type JournalBase = {
 export type JournalPayload = {
   token_name: string;
   trading_date: string;
-  trade_duration: number;
-  risk_reward_ratio: number;
+  trade_duration: number | null | undefined;
+  risk_reward_ratio: number | null | undefined;
   reason: string;
   image: File | string;
+  status: string;
 };
 
 // Unified type for creating or updating a journal entry

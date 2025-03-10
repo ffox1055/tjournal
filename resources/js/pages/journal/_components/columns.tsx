@@ -44,6 +44,10 @@ export const getColumns = ({
   {
     accessorKey: 'risk_reward_ratio',
     header: 'Risk/Reward',
+    cell: ({ row }) => {
+      const riskReward = row.getValue('risk_reward_ratio') || '-';
+      return riskReward;
+    },
   },
   {
     accessorKey: 'trade_duration',

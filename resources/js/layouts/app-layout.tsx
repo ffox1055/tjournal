@@ -1,3 +1,4 @@
+import ConfirmationDialog from '@/components/confirmation-dialog';
 import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/hooks/use-toast';
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
@@ -47,6 +48,7 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
         visibleToasts={Infinity}
       /> */}
 
+      <ConfirmationDialog />
       <Toaster />
     </AppLayoutTemplate>
   );

@@ -1,5 +1,5 @@
 import { SubmitHandler, useFormContext, useWatch } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { usePage } from '@inertiajs/react';
 
 import { Button } from '@/components/ui/button';
@@ -18,6 +18,7 @@ import ControlledToggleGroup from '@/components/input/controlled-toggle-group';
 import { putJournal, postJournal } from '@/services/journal/mutation';
 import { defaultValues, Schema } from '@/types/journal/schema';
 import { StatusOption } from '../_constants/data';
+import useLoadingStore from '@/store/loading-store';
 
 interface FormInputProps {
   isOpen: boolean;
@@ -28,18 +29,18 @@ interface FormInputProps {
 const FormInput = ({ isOpen, onOpenChange, journalDetail }: FormInputProps) => {
   const { handleSubmit, control, reset } = useFormContext<Schema>();
   const variant = useWatch({ control, name: 'variant' });
-  const [isLoading, setIsLoading] = useState(false); // Loading for submit action
+  const { isFormLoading, setIsFormLoading } = useLoadingStore();
   const flashMessages = usePage().props;
 
   // Handle form submission
   const onSubmit: SubmitHandler<Schema> = (data) => {
-    setIsLoading(true);
+    setIsFormLoading(true);
 
     const mutation = variant === 'create' ? postJournal : putJournal;
 
     mutation({
       journalData: data,
-      setLoadingState: setIsLoading,
+      setLoadingState: setIsFormLoading,
       toggleFormOpen: onOpenChange,
     });
   };
@@ -55,7 +56,6 @@ const FormInput = ({ isOpen, onOpenChange, journalDetail }: FormInputProps) => {
 
       <AppSheet
         onOpenChange={(val) => {
-          reset(defaultValues);
           return onOpenChange(val);
         }}
         open={isOpen}
@@ -165,8 +165,8 @@ const FormInput = ({ isOpen, onOpenChange, journalDetail }: FormInputProps) => {
                 Cancel
               </Button>
             </SheetClose>
-            <Button onClick={handleSubmit(onSubmit)} disabled={isLoading}>
-              {isLoading && <LoaderCircle className="animate-spin" />}
+            <Button onClick={handleSubmit(onSubmit)} disabled={isFormLoading}>
+              {isFormLoading && <LoaderCircle className="animate-spin" />}
               Save
             </Button>
           </div>

@@ -6,13 +6,16 @@ import { Calendar } from '../ui/calendar';
 import { format } from 'date-fns';
 import { Controller, FieldValues, Path, useFormContext } from 'react-hook-form';
 import InputError from '../input-error';
+import useLoadingStore from '@/store/loading-store';
 
 type Props<T extends FieldValues> = {
   name: Path<T>;
+  disabled?: boolean;
 };
 
 const ControlledDatePikcer = <T extends FieldValues>({ name }: Props<T>) => {
   const { control } = useFormContext<T>();
+  const { isFormLoading } = useLoadingStore();
 
   return (
     <Popover>
@@ -23,6 +26,7 @@ const ControlledDatePikcer = <T extends FieldValues>({ name }: Props<T>) => {
           <>
             <PopoverTrigger asChild>
               <Button
+                disabled={isFormLoading}
                 variant={'outline'}
                 className={cn(
                   'w-[240px] justify-start text-left font-normal',

@@ -1,7 +1,7 @@
-import { Head, router, usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 import AppLayout from '@/layouts/app-layout';
-import { BreadcrumbItem, ErrorResponse } from '@/types';
+import { BreadcrumbItem } from '@/types';
 import { JournalResponse } from '@/types/journal';
 import { getColumns } from './_components/columns';
 import DataTable from './_components/data-table';
@@ -9,8 +9,11 @@ import { FormContext } from '@/context/journal/form-context';
 import { useCallback, useMemo, useState } from 'react';
 import { mapResponse } from '@/utils/journal/map-data';
 import { Schema } from '@/types/journal/schema';
-import { toast } from 'sonner';
 import FormInput from './_components/form-input';
+import { deleteJournal } from '@/services/journal/mutation';
+import useConfirmationStore from '@/store/confirmation-store';
+import useLoadingStore from '@/store/loading-store';
+import { toast } from '@/hooks/use-toast';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -23,6 +26,8 @@ export default function List() {
   const props = usePage().props;
   const journalsEntries = props.journals as JournalResponse[];
   const [selectedJournal, setSelectedJournal] = useState<Schema | null>(null);
+  const { openConfirmation } = useConfirmationStore();
+  const { isFormLoading, setIsFormLoading } = useLoadingStore();
 
   const [isSheetOpen, setIsSheetOpen] = useState<boolean>(false);
 
@@ -31,16 +36,34 @@ export default function List() {
     setIsSheetOpen(true);
   }, []);
 
-  const onDelete = useCallback((journals: JournalResponse) => {
-    router.delete(`journal/${journals.id}`, {
-      onSuccess: ({ props }) => {
-        const err = props.err as ErrorResponse;
-        if (!err.message) {
-          toast.success('Journal deleted');
-        }
-      },
-    });
-  }, []);
+  const onDelete = useCallback(
+    (journals: JournalResponse) => {
+      // Return when the process in on load
+      if (isFormLoading) {
+        toast({
+          variant: 'error',
+          title: 'Ops',
+          description: 'Please wait until other proccess is finish.',
+          duration: 3000,
+        });
+
+        return;
+      }
+
+      openConfirmation({
+        title: 'Delete Confirmation',
+        description: 'Are you sure you want to delete this item?',
+        cancelLabel: 'Cancel',
+        actionLabel: 'Delete',
+        actionVariant: 'destructive',
+        onAction: () => {
+          setIsFormLoading(true);
+          deleteJournal(journals.id, () => setIsFormLoading(false));
+        },
+      });
+    },
+    [isFormLoading, setIsFormLoading, openConfirmation],
+  );
 
   const columns = useMemo(
     () => getColumns({ onDelete: onDelete, onUpdate: onUpdate }),

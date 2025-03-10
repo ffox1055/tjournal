@@ -1,6 +1,7 @@
 import { Controller, FieldValues, Path, useFormContext } from 'react-hook-form';
 import { Input } from '../ui/input';
 import InputError from '../input-error';
+import useLoadingStore from '@/store/loading-store';
 
 type Props<T extends FieldValues> = {
   name: Path<T>;
@@ -11,6 +12,7 @@ const ControlledInputFile = <T extends FieldValues>({
   ...props
 }: Props<T>) => {
   const { control } = useFormContext();
+  const { isFormLoading } = useLoadingStore();
 
   return (
     <Controller
@@ -19,6 +21,7 @@ const ControlledInputFile = <T extends FieldValues>({
       render={({ field: { onChange }, fieldState: { error } }) => (
         <>
           <Input
+            disabled={isFormLoading}
             type="file"
             accept="image/png, image/jpeg"
             onChange={(e) => {

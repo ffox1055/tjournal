@@ -4,6 +4,7 @@ import {
   JournalResponse,
 } from '@/types/journal';
 import { Schema } from '@/types/journal/schema';
+import { omit } from 'lodash';
 
 // mapdata before send to backend
 export function mapData(data: Schema): JournalCreateUpdate {
@@ -47,4 +48,27 @@ export function mapResponse(data: JournalResponse): Schema {
     tradingDate: new Date(data.trading_date),
     tradeDuration: data.trade_duration,
   };
+}
+
+export function createFormData(journalData: Schema): FormData {
+  const formData = new FormData();
+  const formattedData = omit(mapData(journalData), 'variant');
+
+  formData.append('_method', 'PUT');
+  formData.append('token_name', formattedData.token_name);
+  formData.append('image', formattedData.image);
+  formData.append('trading_date', formattedData.trading_date);
+  if (formattedData.risk_reward_ratio) {
+    formData.append(
+      'risk_reward_ratio',
+      formattedData.risk_reward_ratio.toString(),
+    );
+  }
+  if (formattedData.trade_duration) {
+    formData.append('trade_duration', formattedData.trade_duration.toString());
+  }
+  formData.append('status', formattedData.status);
+  formData.append('reason', formattedData.reason);
+
+  return formData;
 }

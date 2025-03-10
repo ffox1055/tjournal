@@ -1,8 +1,8 @@
-import React from 'react';
 import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
 import { Controller, FieldValues, Path, useFormContext } from 'react-hook-form';
 import { Option } from '@/types';
 import InputError from '../input-error';
+import useLoadingStore from '@/store/loading-store';
 
 interface Props<T extends FieldValues> {
   name: Path<T>;
@@ -15,6 +15,7 @@ const ControlledToggleGroup = <T extends FieldValues>({
   options,
   className,
 }: Props<T>) => {
+  const { isFormLoading } = useLoadingStore();
   const { control } = useFormContext();
 
   return (
@@ -24,6 +25,7 @@ const ControlledToggleGroup = <T extends FieldValues>({
       render={({ field: { value, onChange }, fieldState: { error } }) => (
         <>
           <ToggleGroup
+            disabled={isFormLoading}
             variant="outline"
             className={className}
             type="single"

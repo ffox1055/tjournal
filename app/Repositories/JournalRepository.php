@@ -49,8 +49,9 @@ class JournalRepository implements JournalRepositoryInterface
     {
         $journal = $this->findJournal(id: $id);
 
-        if ($journal['image'] && $journal['image'] instanceof UploadedFile) {
-            $this->deleteImage($journal['image']);
+        // delete image path
+        if ($journal['image']) {
+            $this->deleteImage(img: $journal['image']);
         }
 
         return $journal->delete();

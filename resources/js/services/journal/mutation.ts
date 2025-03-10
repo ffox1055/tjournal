@@ -125,4 +125,17 @@ export function putJournal({
   }
 }
 
-export function deleteJournal() {}
+export function deleteJournal(
+  id: number | string,
+  setLoadingState: () => void,
+) {
+  router.delete(`journal/${id}`, {
+    onSuccess: ({ props }) => {
+      const err = props.err as ErrorResponse;
+      if (!err.message) {
+        handleSuccessResponse('Journal deleted');
+        setLoadingState();
+      }
+    },
+  });
+}

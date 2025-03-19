@@ -14,7 +14,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Journal',
-        url: '#',
+        url: '/journal',
         icon: BookHeadphones,
     },
 ];

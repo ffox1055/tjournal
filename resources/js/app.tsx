@@ -7,22 +7,26 @@ import { route as routeFn } from 'ziggy-js';
 import { initializeTheme } from './hooks/use-appearance';
 
 declare global {
-    const route: typeof routeFn;
+  const route: typeof routeFn;
 }
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./pages/${name}.tsx`, import.meta.glob('./pages/**/*.tsx')),
-    setup({ el, App, props }) {
-        const root = createRoot(el);
+  title: (title) => `${title} - ${appName}`,
+  resolve: (name) =>
+    resolvePageComponent(
+      `./pages/${name}.tsx`,
+      import.meta.glob('./pages/**/*.tsx'),
+    ),
+  setup({ el, App, props }) {
+    const root = createRoot(el);
 
-        root.render(<App {...props} />);
-    },
-    progress: {
-        color: '#09ab1e',
-    },
+    root.render(<App {...props} />);
+  },
+  progress: {
+    color: '#09ab1e',
+  },
 });
 
 // This will set light / dark mode on load...

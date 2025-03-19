@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Journal;
 use Illuminate\Database\Seeder;
 
 class JournalSeeder extends Seeder
@@ -12,6 +12,6 @@ class JournalSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Journal::factory()->count(10)->create();
     }
 }

@@ -72,8 +72,19 @@ function DropdownMenuItem({
       data-inset={inset}
       data-variant={variant}
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground data-[variant=destructive]:text-destructive-foreground data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/40 data-[variant=destructive]:focus:text-destructive-foreground data-[variant=destructive]:*:[svg]:!text-destructive-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className
+        "relative flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm select-none outline-hidden",
+        "focus:bg-accent focus:text-accent-foreground",
+        "data-[variant=destructive]:text-destructive-foreground",
+        "data-[variant=destructive]:focus:bg-destructive/10 dark:data-[variant=destructive]:focus:bg-destructive/40",
+        "data-[variant=destructive]:focus:text-destructive-foreground",
+        "data-[variant=destructive]:*:[svg]:!text-destructive-foreground",
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        "data-[inset]:pl-8",
+        "[&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "[&_svg:not([class*='text-'])]:text-muted-foreground",
+        "[&_svg:not([class*='size-'])]:size-4",
+
+        className // Allow additional class overrides
       )}
       {...props}
     />
@@ -133,7 +144,7 @@ function DropdownMenuRadioItem({
     >
       <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
         <DropdownMenuPrimitive.ItemIndicator>
-          <CircleIcon className="size-2 fill-current" />
+          <CircleIcon className="fill-current size-2" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       {children}

@@ -14,7 +14,7 @@ export default function ErrorPage({ status }) {
   }[status];
 
   return (
-    <div>
+    <div className="flex h-screen w-full flex-col items-center justify-center">
       <h1>{title}</h1>
       <div>{description}</div>
     </div>

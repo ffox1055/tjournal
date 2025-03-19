@@ -2,8 +2,15 @@
 
 import { DTColumnHeader } from '@/components/data-table/dt-column-header';
 import DTRowAction from '@/components/data-table/dt-row-actions';
+import { Badge } from '@/components/ui/badge';
 import { JournalResponse } from '@/types/journal';
 import { ColumnDef } from '@tanstack/react-table';
+import { CircleHelp, Info } from 'lucide-react';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 interface GetColumnProps {
   onUpdate: (journal: JournalResponse) => void;
@@ -45,8 +52,15 @@ export const getColumns = ({
     accessorKey: 'risk_reward_ratio',
     header: 'Risk/Reward',
     cell: ({ row }) => {
-      const riskReward = row.getValue('risk_reward_ratio') || '-';
-      return riskReward;
+      const riskReward = row.getValue('risk_reward_ratio');
+
+      return (
+        riskReward ?? (
+          <div className="text-center">
+            <CircleHelp size={15} strokeWidth={2} strokeOpacity={0.5} />
+          </div>
+        )
+      );
     },
   },
   {
@@ -56,21 +70,75 @@ export const getColumns = ({
     ),
     cell: ({ row }) => {
       const duration = row.getValue('trade_duration');
-      return `${duration ? `${duration} hours` : '-'}`;
+      return duration ? (
+        `${duration} hours`
+      ) : (
+        <div className="text-center">
+          <CircleHelp size={15} strokeWidth={2} strokeOpacity={0.5} />
+        </div>
+      );
     },
   },
   {
     accessorKey: 'status',
     header: ({ column }) => <DTColumnHeader column={column} title="Status" />,
     cell: ({ row }) => {
-      return `${row.getValue('status') ? row.getValue('status') : '-'}`;
+      let variant = '';
+
+      switch (row.getValue('status')) {
+        case 'loss':
+          variant = 'destructive';
+          break;
+        case 'win':
+          variant = 'success';
+          break;
+        case 'be':
+          variant = 'warning';
+          break;
+        default:
+          variant = 'default';
+          break;
+      }
+
+      return (
+        <Badge
+          className="capitalize"
+          variant={
+            variant as
+              | 'default'
+              | 'destructive'
+              | 'secondary'
+              | 'outline'
+              | null
+              | undefined
+          }
+        >
+          {row.getValue('status')}
+        </Badge>
+      );
     },
   },
   {
     accessorKey: 'reason',
     header: 'Reason',
     cell: ({ row }) => {
-      return <div className="line-clamp-1 w-40">{row.getValue('reason')}</div>;
+      const PopInfo = ({ description }: { description: string }) => {
+        return (
+          <Popover>
+            <PopoverTrigger className="cursor-pointer">
+              <Info className="w-4" opacity={0.5} />
+            </PopoverTrigger>
+            <PopoverContent>{description}</PopoverContent>
+          </Popover>
+        );
+      };
+
+      return (
+        <div className="flex w-40 items-center gap-2">
+          <p className="line-clamp-1">{row.getValue('reason')}</p>
+          <PopInfo description={row.getValue('reason')} />
+        </div>
+      );
     },
   },
   {

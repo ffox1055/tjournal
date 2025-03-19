@@ -1,7 +1,6 @@
-"use client"
+'use client';
 
-import { useTheme } from "next-themes"
-import { Toaster as Sonner } from "sonner"
+import { Toaster as Sonner } from 'sonner';
 
 import {
   Toast,
@@ -10,36 +9,39 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from "@/components/ui/toast"
-import { useToast } from "@/hooks/use-toast"
+} from '@/components/ui/toast';
+import { useToast } from '@/hooks/use-toast';
+import { createPortal } from 'react-dom';
 
-type ToasterProps = React.ComponentProps<typeof Sonner>
+type ToasterProps = React.ComponentProps<typeof Sonner>;
 
 const ToasterSonner = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme()
-
-  return (
+  const toasterContent = (
     <Sonner
-      theme={theme as ToasterProps["theme"]}
-      className="toaster group"
+      className="toaster group pointer-events-auto"
       toastOptions={{
         classNames: {
           toast:
-            "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg",
-          description: "group-[.toast]:text-muted-foreground",
+            'group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg',
+          description: 'group-[.toast]:text-muted-foreground',
           actionButton:
-            "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground",
+            'group-[.toast]:bg-primary group-[.toast]:text-primary-foreground',
           cancelButton:
-            "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground",
+            'group-[.toast]:bg-muted group-[.toast]:text-muted-foreground',
         },
       }}
       {...props}
     />
-  )
-}
+  );
 
-function Toaster() {
-  const { toasts } = useToast()
+  // Only render in the browser
+  if (typeof window === 'undefined') return null;
+
+  return createPortal(toasterContent, document.body);
+};
+
+const Toaster = () => {
+  const { toasts } = useToast();
 
   return (
     <ToastProvider>
@@ -55,11 +57,11 @@ function Toaster() {
             {action}
             <ToastClose />
           </Toast>
-        )
+        );
       })}
       <ToastViewport />
     </ToastProvider>
-  )
-}
+  );
+};
 
-export { Toaster, ToasterSonner }
+export { Toaster, ToasterSonner };

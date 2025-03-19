@@ -5,6 +5,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from '@/components/ui/sheet';
+import { useCallback } from 'react';
 
 interface AppSheetProps extends React.ComponentPropsWithRef<typeof Sheet> {
   children: React.ReactNode;
@@ -20,10 +21,29 @@ export default function AppSheet({
   sheetDescription,
   ...props
 }: AppSheetProps) {
+  const handleClickOutside = useCallback(
+    (e: CustomEvent<{ originalEvent: PointerEvent | FocusEvent }>) => {
+      const targetNode = document.querySelector('.toaster');
+
+      if (
+        e.target &&
+        targetNode &&
+        targetNode?.contains(e.target as HTMLElement)
+      ) {
+        e.preventDefault();
+      }
+    },
+    [],
+  );
+
   return (
     <Sheet {...props}>
       {trigger}
-      <SheetContent className="w-3xl md:max-w-2xl xl:max-w-5xl">
+      <SheetContent
+        className="md:w-2xl md:max-w-3xl"
+        onPointerDownOutside={handleClickOutside}
+        onInteractOutside={handleClickOutside}
+      >
         <SheetHeader className="border-b">
           <SheetTitle>{sheetTitle}</SheetTitle>
           <SheetDescription>{sheetDescription}</SheetDescription>

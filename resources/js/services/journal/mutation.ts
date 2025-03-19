@@ -4,7 +4,7 @@ import omit from 'lodash/omit';
 import { Schema } from '@/types/journal/schema';
 import { mapData } from '@/utils/journal/map-data';
 import { ErrorResponse } from '@/types';
-import { toast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 
 interface PostJournalParams {
   journalData: Schema;
@@ -15,11 +15,8 @@ interface PostJournalParams {
 function handleErrorResponse(errorResponse: ErrorResponse): void {
   if (!errorResponse.message) return;
 
-  toast({
-    variant: 'error',
-    title: 'Uh oh! Something went wrong.',
+  toast.error('Uh oh! Something went wrong', {
     description: errorResponse.message,
-    duration: 3000,
   });
 
   setTimeout(() => {
@@ -31,11 +28,7 @@ function handleSuccessResponse(
   message: string,
   toggleFormOpen?: (isOpen: boolean) => void,
 ): void {
-  toast({
-    variant: 'success',
-    description: message,
-    duration: 1500,
-  });
+  toast.success(message);
 
   if (toggleFormOpen) {
     toggleFormOpen(false);
@@ -118,9 +111,8 @@ export function putJournal({
       },
     });
   } else {
-    toast({
-      title: 'Something wrong! :(',
-      variant: 'error',
+    toast.error('Something wrong! :(', {
+      description: 'Please try again',
     });
   }
 }

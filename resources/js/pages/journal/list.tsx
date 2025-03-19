@@ -14,6 +14,8 @@ import { deleteJournal } from '@/services/journal/mutation';
 import useConfirmationStore from '@/store/confirmation-store';
 import useLoadingStore from '@/store/loading-store';
 import { toast } from '@/hooks/use-toast';
+import HeadingSmall from '@/components/heading-small';
+import Heading from '@/components/heading';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -44,7 +46,7 @@ export default function List() {
           variant: 'error',
           title: 'Ops',
           description: 'Please wait until other proccess is finish.',
-          duration: 3000,
+          duration: 2000,
         });
 
         return;
@@ -74,15 +76,22 @@ export default function List() {
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Journal" />
       <FormContext>
-        <div className="layout flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-          <FormInput
-            isOpen={isSheetOpen}
-            onOpenChange={(value) => {
-              setIsSheetOpen(value);
-              if (!value) setSelectedJournal(null);
-            }}
-            journalDetail={selectedJournal}
-          />
+        <div className="layout flex h-full flex-1 flex-col rounded-xl p-4">
+          <div className="flex flex-col items-center justify-between md:flex-row">
+            <Heading
+              className="lg:w-1/2"
+              title="Journal List"
+              description="Track your trading journey with a complete history of past and active trades. Stay organized, analyze your progress, and keep pushing towards success!"
+            />
+            <FormInput
+              isOpen={isSheetOpen}
+              onOpenChange={(value) => {
+                setIsSheetOpen(value);
+                if (!value) setSelectedJournal(null);
+              }}
+              journalDetail={selectedJournal}
+            />
+          </div>
           <div className="grid auto-rows-min">
             <DataTable columns={columns} data={journalsEntries} />
           </div>

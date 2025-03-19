@@ -1,12 +1,11 @@
 import ConfirmationDialog from '@/components/confirmation-dialog';
-import { Toaster } from '@/components/ui/toaster';
-import { useToast } from '@/hooks/use-toast';
+import { ToasterSonner } from '@/components/ui/toaster';
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import { type BreadcrumbItem } from '@/types';
 import { usePage } from '@inertiajs/react';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
-// import { toast } from 'sonner';
+import { toast } from 'sonner';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -14,7 +13,6 @@ interface AppLayoutProps {
 }
 
 export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
-  const { toast } = useToast();
   const pageProps = usePage().props;
   const { errors } = pageProps;
 
@@ -32,24 +30,24 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
         })
         .join('\n'); // Join all error messages into a single string
 
-      toast({
-        description: errorMessage,
-        variant: 'error',
-      });
+      toast.error(errorMessage);
     }
-  }, [hasErrors, errors, toast]);
+  }, [errors, hasErrors]);
+
   return (
     <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
       {children}
-      {/* <ToasterSonner
+      <ToasterSonner
+        theme="light"
         richColors
         position="top-right"
         closeButton={true}
-        visibleToasts={Infinity}
-      /> */}
+        visibleToasts={8}
+        expand={true}
+      />
 
       <ConfirmationDialog />
-      <Toaster />
+      {/* <Toaster /> */}
     </AppLayoutTemplate>
   );
 };

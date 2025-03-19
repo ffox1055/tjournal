@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { MoreHorizontal } from 'lucide-react';
+import { Edit, MoreHorizontal, Trash } from 'lucide-react';
 import { Button } from '../ui/button';
 
 interface DTRowActionProps<TData> {
@@ -35,9 +35,14 @@ const DTRowAction = <TData,>({
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => onUpdate(row.original)}>
+          <Edit />
           Edit
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => onDelete(row.original)}>
+        <DropdownMenuItem
+          onClick={() => onDelete(row.original)}
+          variant="destructive"
+        >
+          <Trash />
           Delete
         </DropdownMenuItem>
       </DropdownMenuContent>
